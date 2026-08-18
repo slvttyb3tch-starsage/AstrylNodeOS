@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  astryl_tor:
+    image: dperson/torproxy:latest
+    containername: astryltor
+    volumes:
+      - ./tor/torrc:/etc/tor/torrc
+      - ./tor/data:/var/lib/tor
+    restart: unless-stopped
+    depends_on:
+      - astryl_drive
+      - astryl_network
+
+  astryl_drive:
+    image: nextcloud:latest
+    containername: astryldrive
+    ports:
+      - "127.0.0.1:8080:80" # binds strictly to localhost for tor
+    volumes:
+      - ./nextcloud_data:/var/www/html
+    restart: unless-stopped
+
+  astryl_network:
+    image: ghcr.io/sagernet/sing-box:latest
+    containername: astrylnetwork
+    network_mode: host
+    volumes:
+      - ./singbox:/etc/sing-box
+    restart: unless-stopped
