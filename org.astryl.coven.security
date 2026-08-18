@@ -1,0 +1,32 @@
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import java.io.File
+import java.io.FileOutputStream
+
+class AstrylMediaSanitizer {
+
+    // completely destroys all metadata by re-encoding the image
+    fun nukeMetadata(imageFile: File): File? {
+        if (!imageFile.exists()) return null
+        
+        return try {
+            // decode the image into a raw bitmap
+            val bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+            
+            // create a brand new, clean file
+            val cleanFile = File(imageFile.parent, "clean_${imageFile.name}")
+            
+            // compress the bitmap into the new file, dropping all metadata
+            FileOutputStream(cleanFile).use { out ->
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
+            }
+            
+            // free up memory
+            bitmap.recycle()
+            
+            cleanFile
+        } catch (e: Exception) {
+            null
+        }
+    }
+}
