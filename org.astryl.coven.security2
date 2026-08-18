@@ -1,0 +1,48 @@
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
+
+class AstrylBiometricLock(private val activity: FragmentActivity) {
+
+    fun authenticate(onSuccess: () -> Unit) {
+        val biometricManager = BiometricManager.from(activity)
+        val executor = ContextCompat.getMainExecutor(activity)
+        
+        val callback = object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(result)
+                onSuccess()
+            }
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                super.onAuthenticationError(errorCode, errString)
+                activity.finish()
+            }
+        }
+
+        val biometricPrompt = BiometricPrompt(activity, executor, callback)
+
+        // check if biometrics are available
+        if (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRICSTRONG) == BiometricManager.BIOMETRICSUCCESS) {
+            val promptInfo = BiometricPrompt.PromptInfo.Builder()
+                .setTitle("astryl node access")
+                .setSubtitle("authenticate to access the sovereign matrix")
+                .setNegativeButtonText("cancel")
+                .build()
+            biometricPrompt.authenticate(promptInfo)
+        } 
+        // fallback to device pin/password if no biometrics
+        else if (biometricManager.canAuthenticate(BiometricManager.Authenticators.DEVICECREDENTIAL) == BiometricManager.BIOMETRICSUCCESS) {
+            val promptInfo = BiometricPrompt.PromptInfo.Builder()
+                .setTitle("astryl node access")
+                .setSubtitle("enter device credentials")
+                .setAllowedAuthenticators(BiometricManager.Authenticators.DEVICE_CREDENTIAL)
+                .build()
+            biometricPrompt.authenticate(promptInfo)
+        } 
+        // no security set up on the device at all
+        else {
+            onSuccess()
+        }
+    }
+}
