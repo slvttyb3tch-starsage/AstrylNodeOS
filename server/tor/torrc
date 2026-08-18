@@ -1,0 +1,11 @@
+# torrc
+# purpose: turn the astryl off-grid server into an untraceable hidden service
+
+# define the hidden service directory and route ports to local docker containers
+HiddenServiceDir /var/lib/tor/astryl_coven/
+HiddenServicePort 80 127.0.0.1:8080   # routes to nextcloud (astryl drive)
+HiddenServicePort 51820 127.0.0.1:51820 # routes to sing-box wireguard (astryl network)
+
+# hardening: disable non-anonymous tor features to prevent ip leaks
+HiddenServiceNonAnonymousMode 0
+SocksPort 0
