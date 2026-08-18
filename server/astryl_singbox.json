@@ -1,0 +1,27 @@
+{
+  "log": { "level": "error" },
+  "inbounds": [
+    {
+      "type": "tun",
+      "inet4_address": "172.19.0.1/30",
+      "auto_route": true,
+      "strict_route": true,
+      "sniff": true
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "wireguard",
+      "tag": "astryl-wg",
+      "server": "astryl.coven.onion",
+      "server_port": 51820,
+      "private_key": "<your_device_private_key>",
+      "peer_public_key": "<server_public_key>",
+      "pre_shared_key": "<your_pqc_kyber_psk>",
+      "reserved": [0, 0, 0]
+    }
+  ],
+  "route": {
+    "final": "astryl-wg"
+  }
+}
