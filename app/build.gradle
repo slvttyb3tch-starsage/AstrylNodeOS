@@ -1,0 +1,18 @@
+dependencies {
+    // core android and kotlin
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    
+    // jetpack compose for the ios-style ui
+    implementation 'androidx.compose.ui:ui:1.5.4'
+    implementation 'androidx.compose.material3:material3:1.1.2'
+    implementation 'androidx.activity:activity-compose:1.8.2'
+    
+    // hardware security and keystore for astryl vault
+    implementation 'androidx.security:security-crypto:1.1.0-alpha06'
+    
+    // networking and webdav for astryl drive
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    
+    // bluetooth and haptics are native android apis
+}
