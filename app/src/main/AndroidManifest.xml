@@ -1,0 +1,33 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.astryl.coven">
+
+    <!-- permissions for astryl mesh, vault, and network -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
+    <!-- bluetooth permissions for astryl mesh -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    
+    <!-- hardware security for astryl vault -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
+    <application
+        android:name=".AstrylApplication"
+        android:label="AstrylNodeOS"
+        android:theme="@style/AstrylDarkTheme"
+        android:icon="@drawable/astryl_icon">
+        
+        <activity android:name=".launcher.AstrylLauncherActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name=".chat.AstrylChatActivity" android:exported="true" />
+        
+    </application>
+</manifest>
